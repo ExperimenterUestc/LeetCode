@@ -1,0 +1,71 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if(headA==NULL||headB==NULL)
+            return NULL;
+        ListNode *p=headA;
+        ListNode *q=headB;
+        int lenA=0,lenB=0;
+        while(p->next!=NULL)
+        {
+            p=p->next;
+            lenA++;
+        }
+        while(q->next!=NULL)
+        {
+            q=q->next;
+            lenB++;
+        }
+        if(q!=p) return NULL;
+        int x = abs(lenA-lenB);
+        if(lenA > lenB)
+        {
+            for(int i = 0 ; i < x ; i ++)
+                headA = headA->next;
+        }
+        else
+        {
+            for(int i = 0 ; i < x ; i ++)
+                headB = headB->next;
+        }
+        while(headA != headB)
+        {
+            headA = headA->next;
+            headB = headB->next;
+        }
+        return headA;
+    }
+};
+//思路：若相交，则相交部分的起点相同，分别求出长度，使较长的链表先向后移动x（差值）个位置（使长链表后面的长度与短链表相同），
+再开始对两个链表同时进行遍历，直到遍历到第一个相同结点时即为交点。
+
+//评论处解析。a走完走b的路，b走完走a的路，这样遍历长度相同。
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if(headA == NULL || headB == NULL) return NULL;
+        //定义两个指针，一个指向A的头，一个指向B的头
+        //两个指针同时向后走，到末尾之后就转向另一个链表的头节点
+        //这样就使得相遇节点之前两个指针的路径相同，如果没有交点，那么末尾的null就是他们相同的点
+        ListNode* pA = headA;
+        ListNode* pB = headB;
+        
+        while(pA != pB) {
+            pA = pA == NULL ? headB : pA->next;
+            pB = pB == NULL ? headA : pB->next;
+        }
+        return pA;
+    }
+};
+
+
+
+
