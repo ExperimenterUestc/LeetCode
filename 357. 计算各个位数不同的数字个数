@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int countNumbersWithUniqueDigits(int n) {
+        if(n==0) 
+            return 1; 
+        if(n==1) 
+            return 10; 
+        int result=10; 
+        int f=9; 
+        for (int i = 2; i <= n; ++i) 
+        { //从f(2)开始计算，然后累加即可 
+            f*=(10-i+1); 
+            result += f; 
+        } 
+        return result;
+    }
+};
+
+//排列组合
